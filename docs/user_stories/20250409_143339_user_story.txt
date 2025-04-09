@@ -1,0 +1,8 @@
+- As a user, I want to upload files (PDF, DOCX, etc.) so that I can generate quizzes from them.
+- As a user, I want the app to generate quiz questions (e.g., multiple choice, true/false) based on the uploaded content so that I can test my understanding.
+- As a user, I want to take the generated quiz in the app so that I can test myself immediately.
+- As a user, I want to see the correct answers and explanations after completing a quiz so that I can learn from my mistakes.
+- As a user, I want to save my quizzes and results so that I can review my progress later.
+- As a user, I want to reattempt previous quizzes so that I can check improvement over time.
+
+
