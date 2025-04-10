@@ -1,5 +1,3 @@
-# System design, diagrams, data flow, additional documentation
-
 # 🏗️ Architecture & Documentation
 
 This folder contains all technical documentation related to the system design.
