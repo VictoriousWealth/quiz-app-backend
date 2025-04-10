@@ -47,7 +47,7 @@ Open `http://localhost:3000` to view it in your browser.
 
 ## 🔧 Available Scripts (via Create React App)
 
--- In the `frontend/` directory, you can run:
+In the `frontend/` directory, you can run:
 ```bash
 npm start
 ```
@@ -78,6 +78,6 @@ npm run eject
 ## Related Docs
 
 - [System Overview](../docs/architecture/overview.md)
-- [API Design](./architecture/api_design.md)
+- [API Design](../docs/architecture/api_design.md)
 
 ---
