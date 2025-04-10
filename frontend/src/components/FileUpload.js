@@ -4,7 +4,7 @@ import API from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 
-const FileUpload = () => {
+const FileUpload = ({ darkMode }) => {
   const [file, setFile] = useState(null);
 
   const handleFileChange = (e) => {

@@ -19,8 +19,7 @@ const sampleQuiz = {
   ]
 };
 
-
-const QuizPage = () => {
+const QuizPage = ({ darkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const quiz = location.state?.quizData || sampleQuiz; // ✅ fallback to sample
@@ -48,7 +47,7 @@ const QuizPage = () => {
     <div>
       <h2>Take the Quiz</h2>
       {quiz.questions.map((q, index) => (
-        <Card className="mb-3" key={q.id}>
+        <Card className={`mb-3 ${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`} key={q.id}>
           <Card.Body>
             <Card.Title>{index + 1}. {q.question}</Card.Title>
             <Form>
@@ -67,7 +66,9 @@ const QuizPage = () => {
           </Card.Body>
         </Card>
       ))}
-      <Button variant="success" onClick={handleSubmit}>Submit Answers</Button>
+      <Button variant={darkMode ? 'outline-light' : 'success'} onClick={handleSubmit}>
+        Submit Answers
+      </Button>
     </div>
   );
 };

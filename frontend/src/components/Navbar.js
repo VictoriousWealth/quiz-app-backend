@@ -1,10 +1,10 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const AppNavbar = () => {
+const AppNavbar = ({ darkMode, setDarkMode }) => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg={darkMode ? "dark" : "light"} variant={darkMode ? "dark" : "light"} expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">QuizGen</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -15,6 +15,13 @@ const AppNavbar = () => {
             <Nav.Link as={Link} to="/results">Results</Nav.Link>
             <Nav.Link as={Link} to="/history">History</Nav.Link>
           </Nav>
+          <Form.Switch
+            id="darkModeSwitch"
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+            label="🌙"
+            className="text-nowrap"
+          />
         </Navbar.Collapse>
       </Container>
     </Navbar>

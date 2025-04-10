@@ -13,7 +13,7 @@ const sampleEvaluated = {
   }
 };
 
-const ResultsPage = () => {
+const ResultsPage = ({ darkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ const ResultsPage = () => {
         const isCorrect = userAnswer === correctAnswer;
 
         return (
-          <Card className="mb-3" key={q.id}>
+          <Card className={`mb-3 ${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`} key={q.id} >
             <Card.Body>
               <Card.Title>{index + 1}. {q.question}</Card.Title>
               <p>
@@ -63,7 +63,9 @@ const ResultsPage = () => {
           </Card>
         );
       })}
-      <Button variant="primary" onClick={() => navigate('/')}>Try Another Quiz</Button>
+      <Button variant={darkMode ? 'outline-light' : 'primary'} onClick={() => navigate('/')}>
+        Try Another Quiz
+      </Button>
     </div>
   );
 };
