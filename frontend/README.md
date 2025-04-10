@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# 🎨 Frontend – React.js + Bootstrap
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend for the Gemini-powered Quiz Generator.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## ✅ Features Implemented
 
-### `npm start`
+- File upload (PDF/DOCX)
+- Dynamic quiz rendering
+- Results page with answer explanations
+- Dark mode toggle (theme-aware styling)
+- Navigation using React Router
+- Bootstrap styling for all components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Getting Started
 
-### `npm test`
+```bash
+cd frontend
+npm install
+npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode.
+Open `http://localhost:3000` to view it in your browser.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📁 Folder Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `components/` – Reusable pages and UI components
+- `api/api.js` – Axios instance for backend communication
+- `App.js` – Main routing logic
+- `Navbar.js` – Top-level navigation with dark mode toggle
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+--- 
 
-### `npm run eject`
+## 💡 Notes
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Dark mode state is passed as props to all major pages.
+- Components adapt using Bootstrap class variants.
+- The app currently uses mocked quiz data until backend integration.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔧 Available Scripts (via Create React App)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-- In the `frontend/` directory, you can run:
+```bash
+npm start
+```
+Runs the app in development mode.
+```bash
+npm test
+```
+Launches the test runner in interactive watch mode.
+```bash
+npm run build
+```
+Builds the app for production into the `build/` folder.
+```bash
+npm run eject
+```
+**Warning: This is a one-way operation. Once you `eject`, you can’t go back!**
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📚 Learn More
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [React documentation](https://reactjs.org/).
+- [Bootstrap Docs](https://getbootstrap.com/)
+- [Create React App Guide](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Related Docs
 
-### Analyzing the Bundle Size
+- [System Overview](../docs/architecture/overview.md)
+- [API Design](./architecture/api_design.md)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
