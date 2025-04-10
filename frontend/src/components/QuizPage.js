@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
+import API from '../api/api';
 
 
 const sampleQuiz = {
@@ -33,11 +34,28 @@ const QuizPage = ({ darkMode }) => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("User answers:", answers);
-    // TODO: Send answers to backend and navigate to results page
-    navigate('/results', { state: { userAnswers: answers, quizId: quiz.quiz_id } });
+  const handleSubmit = async () => {
+    try {
+      const res = await API.post('/answers/', {
+        quizData: quiz,
+        userAnswers: answers
+      });
+  
+      const evaluation = res.data;
+  
+      navigate('/results', {
+        state: {
+          quizId: quiz.quiz_id,
+          userAnswers: answers,
+          results: evaluation.results
+        }
+      });
+    } catch (err) {
+      console.error("Answer check failed:", err);
+      alert("Failed to check answers. Please try again.");
+    }
   };
+  
 
   if (!quiz || !quiz.questions) {
     return <p>No quiz data found. Please upload a file first.</p>;
@@ -45,7 +63,7 @@ const QuizPage = ({ darkMode }) => {
 
   return (
     <div className="container mt-4">
-      <h2>Take the Quiz</h2>
+      {(location.state? <h2>Take the Quiz</h2> : <h2>Take the Sample Quiz</h2>)}
       {quiz.questions.map((q, index) => (
         <Card className={`mb-3 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`} key={q.id}>
           <Card.Body>
@@ -60,7 +78,9 @@ const QuizPage = ({ darkMode }) => {
                   value={option}
                   checked={answers[q.id] === option}
                   onChange={() => handleChange(q.id, option)}
+                  className="mb-2"
                 />
+                
               ))}
             </Form>
           </Card.Body>
