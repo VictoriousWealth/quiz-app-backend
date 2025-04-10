@@ -1,5 +1,3 @@
-# backend/routes/upload_db.py
-
 from fastapi import APIRouter, File, UploadFile, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -7,15 +5,14 @@ import os, uuid, json
 from db.session import get_db
 from db.models import UploadedFile, Quiz, Question
 from services.gemini_service import generate_quiz_from_text
-from fastapi import Depends
-from sqlalchemy.orm import Session
+from auth.utils import get_current_user
 
 router = APIRouter()
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post("/")
-async def upload_and_generate_quiz(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def upload_and_generate_quiz(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Store uploaded file
     ext = os.path.splitext(file.filename)[1]
     filename = f"{uuid.uuid4().hex}{ext}"

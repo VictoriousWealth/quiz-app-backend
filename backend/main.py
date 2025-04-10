@@ -20,7 +20,6 @@ Base.metadata.create_all(bind=engine)  # Temporary until you use Alembic
 app = FastAPI()
 
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],

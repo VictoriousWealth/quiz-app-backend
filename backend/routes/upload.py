@@ -11,6 +11,7 @@ from db.session import get_db
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from auth.utils import get_current_user
 
 router = APIRouter()
 UPLOAD_DIR = "uploads"
@@ -28,7 +29,7 @@ def extract_text_from_txt(path):
         return f.read()
 
 @router.post("/")
-async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # 🔒 Restrict allowed file types
     filename = file.filename
     ext = os.path.splitext(filename)[1].lower()
