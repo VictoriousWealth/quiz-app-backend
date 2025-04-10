@@ -30,4 +30,11 @@ A web app that allows users to upload a file (PDF, DOCX, etc.), auto-generate qu
 - View results and explanations
 - Save and reattempt past quizzes
 
+--- 
 
+## 🚀 Progress
+
+- ✅ Frontend MVP completed (React.js + Bootstrap)
+- 🔄 Backend (FastAPI) – In progress
+- 🧠 Gemini AI integration – Coming next
+- 💾 Database + result history – Coming soon

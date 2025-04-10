@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Card } from 'react-bootstrap';
 import API from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 
 const FileUpload = ({ darkMode }) => {
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const navigate = useNavigate();
 
   const handleUpload = async () => {
     if (!file) return alert('Please select a file!');
@@ -36,18 +36,25 @@ const FileUpload = ({ darkMode }) => {
   };
 
   return (
-    <div>
-      <h2>Upload a File to Generate Quiz</h2>
+    <Card className={`p-4 ${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
+      <h2 className="mb-4">Upload a File to Generate Quiz</h2>
       <Form>
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>Select a PDF or DOCX file:</Form.Label>
-          <Form.Control type="file" onChange={handleFileChange} />
+          <Form.Control
+            type="file"
+            onChange={handleFileChange}
+            className={darkMode ? 'bg-secondary text-light' : ''}
+          />
         </Form.Group>
-        <Button variant="primary" onClick={handleUpload}>
+        <Button
+          variant={darkMode ? 'outline-light' : 'primary'}
+          onClick={handleUpload}
+        >
           Upload & Generate Quiz
         </Button>
       </Form>
-    </div>
+    </Card>
   );
 };
 
