@@ -8,7 +8,7 @@ React.js frontend that allows users to upload files, take quizzes, and view resu
 cd frontend
 npm install
 npm start
-
+```
 ##Dependencies
 - React.js
 - Bootstrap
