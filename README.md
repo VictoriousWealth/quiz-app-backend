@@ -1,18 +1,33 @@
-# Main project overview
+# 📚 Gemini AI Quiz Generator
 
-# Quiz App using Gemini AI
+A web app that allows users to upload a file (PDF, DOCX, etc.), auto-generate quizzes using Gemini AI, take quizzes, and get evaluated results with explanations.
 
-This project allows users to upload a file (PDF, DOCX, etc.) and generates quizzes using Gemini AI.
+---
 
-## 🗂️ Project Structure
+## 📂 Project Structure
 
-- [`frontend/`](./frontend/README.md): React app for user interaction
-- [`backend/`](./backend/README.md): API server with file upload and Gemini integration
-- [`ai_prompts/`](./ai_prompts/README.md): Prompt templates for Gemini
-- [`docs/`](./docs/README_architecture.md): Architecture, data flow, etc.
+| Folder | Description |
+|--------|-------------|
+| [`frontend/`](./frontend/README.md) | React.js app with Bootstrap for UI |
+| [`backend/`](./backend/README.md)   | FastAPI backend with Gemini integration |
+| [`ai_prompts/`](./ai_prompts/README.md) | Prompt engineering strategies used with Gemini |
+| [`docs/`](./docs/README_architecture.md) | System design, diagrams, user stories |
 
-## 🚀 Getting Started
+---
 
-[Add setup instructions here...]
+## 🚀 Quick Start
+
+(You can later include setup instructions here.)
+
+---
+
+## 🧠 Core Features
+
+- Upload files to extract content
+- Generate multiple choice or true/false quizzes using Gemini
+- Take quizzes directly in the browser
+- Evaluate answers using Gemini
+- View results and explanations
+- Save and reattempt past quizzes
 
 
