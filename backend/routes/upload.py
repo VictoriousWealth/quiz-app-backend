@@ -7,6 +7,10 @@ import json
 import re
 from services.gemini_service import generate_quiz_from_text
 from uuid import uuid4
+from db.session import get_db
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 UPLOAD_DIR = "uploads"
@@ -24,7 +28,7 @@ def extract_text_from_txt(path):
         return f.read()
 
 @router.post("/")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
     # 🔒 Restrict allowed file types
     filename = file.filename
     ext = os.path.splitext(filename)[1].lower()
