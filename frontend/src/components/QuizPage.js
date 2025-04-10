@@ -44,10 +44,10 @@ const QuizPage = ({ darkMode }) => {
   }
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2>Take the Quiz</h2>
       {quiz.questions.map((q, index) => (
-        <Card className={`mb-3 ${darkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`} key={q.id}>
+        <Card className={`mb-3 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`} key={q.id}>
           <Card.Body>
             <Card.Title>{index + 1}. {q.question}</Card.Title>
             <Form>
