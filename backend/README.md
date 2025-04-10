@@ -20,5 +20,5 @@ uvicorn main:app --reload
 
 ## Related Docs
 
-- [Data Flow](./architecture/data_flow.md)
-- [API Design](./architecture/api_design.md)
+- [Data Flow](../docs/architecture/data_flow.md)
+- [API Design](../docs/architecture/api_design.md)
