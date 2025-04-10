@@ -9,15 +9,16 @@ FastAPI backend that handles file uploads, integrates with Gemini, stores quizze
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
+```
 
-##Dependencies
+## Dependencies
 
 - FastAPI
 - Uvicorn
 - python-multipart
 - Google Gemini SDK (or REST-based request handler)
 
-##Related Docs
+## Related Docs
 
 - [Data Flow](./architecture/data_flow.md)
 - [API Design](./architecture/api_design.md)
