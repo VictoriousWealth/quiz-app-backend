@@ -24,6 +24,7 @@ const QuizPage = ({ darkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const quiz = location.state?.quizData || sampleQuiz; // ✅ fallback to sample
+  const [submitting, setSubmitting] = useState(false);
 
   const [answers, setAnswers] = useState({});
 
@@ -33,8 +34,9 @@ const QuizPage = ({ darkMode }) => {
       [questionId]: selectedOption
     }));
   };
-
+  
   const handleSubmit = async () => {
+    setSubmitting(true);
     try {
       const res = await API.post('/answers/', {
         quizData: quiz,
@@ -53,6 +55,8 @@ const QuizPage = ({ darkMode }) => {
     } catch (err) {
       console.error("Answer check failed:", err);
       alert("Failed to check answers. Please try again.");
+    } finally {
+      setSubmitting(false); // Just in case
     }
   };
   
@@ -86,9 +90,25 @@ const QuizPage = ({ darkMode }) => {
           </Card.Body>
         </Card>
       ))}
-      <Button variant={darkMode ? 'outline-light' : 'success'} onClick={handleSubmit}>
-        Submit Answers
+      <Button
+        variant={darkMode ? 'outline-light' : 'success'}
+        onClick={handleSubmit}
+        disabled={submitting}
+      >
+        {submitting ? (
+          <>
+            <span
+              className="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Submitting...
+          </>
+        ) : (
+          'Submit Answers'
+        )}
       </Button>
+
     </div>
   );
 };

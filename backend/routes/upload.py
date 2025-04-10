@@ -6,8 +6,10 @@ from fastapi.responses import JSONResponse
 import json
 import re
 from services.gemini_service import generate_quiz_from_text
+from uuid import uuid4
 
 router = APIRouter()
+UPLOAD_DIR = "uploads"
 
 def extract_text_from_pdf(path):
     doc = fitz.open(path)
@@ -23,34 +25,37 @@ def extract_text_from_txt(path):
 
 @router.post("/")
 async def upload_file(file: UploadFile = File(...)):
+    # 🔒 Restrict allowed file types
     filename = file.filename
     ext = os.path.splitext(filename)[1].lower()
-
-    # 🔒 Restrict allowed file types
     allowed_extensions = [".pdf", ".docx", ".txt"]
     if ext not in allowed_extensions:
         return JSONResponse(status_code=400, content={
             "error": "Unsupported file format. Only PDF, DOCX, and TXT files are allowed."
         })
 
-    file_location = f"/tmp/{filename}"
+    # Ensure uploads folder exists
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
+    
+    # Generate a unique filename to avoid collisions
+    unique_filename = f"{uuid4().hex}{ext}"
+    file_path = os.path.join(UPLOAD_DIR, unique_filename)
 
-    # Save file to disk
-    with open(file_location, "wb") as f:
+    # Save the file permanently
+    with open(file_path, "wb") as f:
         f.write(await file.read())
-
+    
     # Extract text based on file type
     if ext == ".pdf":
-        extracted_text = extract_text_from_pdf(file_location)
+        extracted_text = extract_text_from_pdf(file_path)
     elif ext == ".docx":
-        extracted_text = extract_text_from_docx(file_location)
+        extracted_text = extract_text_from_docx(file_path)
     elif ext == ".txt":
-        extracted_text = extract_text_from_txt(file_location)
-
-    # ... rest of your Gemini + JSON logic continues
+        extracted_text = extract_text_from_txt(file_path)
 
     print("EXTRACTED TEXT:", extracted_text[:500])
 
+    # 🧠 Gemini generates quiz
     gemini_response = generate_quiz_from_text(extracted_text)
 
     # Clean and parse JSON from Gemini
@@ -59,6 +64,7 @@ async def upload_file(file: UploadFile = File(...)):
 
     try:
         quiz = json.loads(cleaned_json)
+        quiz["source_file"] = unique_filename  # Optional: attach file for traceability
     except json.JSONDecodeError as e:
         print("JSON parse error:", e)
         return JSONResponse(status_code=500, content={"error": "Invalid response from Gemini."})
