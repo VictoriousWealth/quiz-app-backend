@@ -9,10 +9,10 @@ cd frontend
 npm install
 npm start
 ```
-##Dependencies
+## Dependencies
 - React.js
 - Bootstrap
 - Axios
 
-##Related Docs
+## Related Docs
 - [System Overview](../docs/architecture/overview.md)
