@@ -1,31 +1,15 @@
+// src/components/QuizPage.js
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
 import API from '../api/api';
 
 
-const sampleQuiz = {
-  quiz_id: "sample123",
-  questions: [
-    {
-      id: 1,
-      question: "What is the capital of France?",
-      options: ["Paris", "Berlin", "Madrid", "Rome"]
-    },
-    {
-      id: 2,
-      question: "Which planet is known as the Red Planet?",
-      options: ["Venus", "Mars", "Jupiter", "Saturn"]
-    }
-  ]
-};
-
 const QuizPage = ({ darkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const quiz = location.state?.quizData || sampleQuiz; // ✅ fallback to sample
+  const quiz = location.state?.quizData;
   const [submitting, setSubmitting] = useState(false);
-
   const [answers, setAnswers] = useState({});
 
   const handleChange = (questionId, selectedOption) => {
@@ -34,7 +18,7 @@ const QuizPage = ({ darkMode }) => {
       [questionId]: selectedOption
     }));
   };
-  
+
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
@@ -47,9 +31,9 @@ const QuizPage = ({ darkMode }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       const evaluation = res.data;
-  
+
       navigate('/results', {
         state: {
           quizId: quiz.quiz_id,
@@ -61,20 +45,41 @@ const QuizPage = ({ darkMode }) => {
       console.error("Answer check failed:", err);
       alert("Failed to check answers. Please try again.");
     } finally {
-      setSubmitting(false); // Just in case
+      setSubmitting(false);
     }
   };
-  
 
-  if (!quiz || !quiz.questions) {
-    return <p>No quiz data found. Please upload a file first.</p>;
+  if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+    return (
+      <div className="text-center mt-5">
+        <h4>No quiz data found</h4>
+        <p>Please upload a file or select a section from the dashboard.</p>
+        <div className="d-flex justify-content-center gap-3 mt-3">
+          <Button
+            variant={darkMode ? "outline-light" : "primary"}
+            onClick={() => navigate("/dashboard")}
+          >
+            Go to Dashboard
+          </Button>
+          <Button
+            variant={darkMode ? "outline-light" : "secondary"}
+            onClick={() => navigate("/")}
+          >
+            Go to Upload Page
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="container mt-4">
-      {(location.state? <h2>Take the Quiz</h2> : <h2>Take the Sample Quiz</h2>)}
+      <h2>{location.state ? "Take the Quiz" : "Sample Quiz"}</h2>
       {quiz.questions.map((q, index) => (
-        <Card className={`mb-3 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`} key={q.id}>
+        <Card
+          key={q.id}
+          className={`mb-3 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`}
+        >
           <Card.Body>
             <Card.Title>{index + 1}. {q.question}</Card.Title>
             <Form>
@@ -83,13 +88,12 @@ const QuizPage = ({ darkMode }) => {
                   key={idx}
                   type="radio"
                   label={option}
-                  name={`question-${q.id}`}
+                  name={`question-${q.id}`} // keep UUID here
                   value={option}
                   checked={answers[q.id] === option}
-                  onChange={() => handleChange(q.id, option)}
+                  onChange={() => handleChange(q.id, option)} // UUID used here too
                   className="mb-2"
                 />
-                
               ))}
             </Form>
           </Card.Body>
@@ -113,7 +117,6 @@ const QuizPage = ({ darkMode }) => {
           'Submit Answers'
         )}
       </Button>
-
     </div>
   );
 };

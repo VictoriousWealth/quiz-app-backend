@@ -89,7 +89,7 @@ const Dashboard = ({ darkMode }) => {
                     <Button
                       variant="primary"
                       onClick={() => navigate('/quiz', { state: { quizData: {
-                        quiz_id: `section-${i + 1}-${selectedFileId}`,
+                        quiz_id: sec.quiz_id,
                         questions: sec.questions.map(q => ({
                           id: q.id,
                           question: q.text,
