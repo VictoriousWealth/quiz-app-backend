@@ -7,6 +7,8 @@ import HistoryPage from './components/HistoryPage';
 import AppNavbar from './components/Navbar';
 import Login from './components/Login';
 import { jwtDecode } from "jwt-decode";
+import Dashboard from './components/Dashboard';
+import Register from './components/Register'; // at the top
 
 function isTokenValid() {
   const token = localStorage.getItem("token");
@@ -34,12 +36,16 @@ function App() {
         <AppNavbar darkMode={darkMode} setDarkMode={setDarkMode} />
         <div className="container pt-4">
           <Routes>
-            <Route path="/" element={<PrivateRoute><FileUpload darkMode={darkMode} /></PrivateRoute>} />
+            <Route path="/" element={<PrivateRoute><Dashboard darkMode={darkMode} /></PrivateRoute>} />
             <Route path="/quiz" element={<PrivateRoute><QuizPage darkMode={darkMode} /></PrivateRoute>} />
             <Route path="/results" element={<PrivateRoute><ResultsPage darkMode={darkMode} /></PrivateRoute>} />
             <Route path="/history" element={<PrivateRoute><HistoryPage darkMode={darkMode} /></PrivateRoute>} />
+            <Route path="/upload" element={<PrivateRoute><FileUpload darkMode={darkMode} /></PrivateRoute>} />
             <Route path="/login" element={
               localStorage.getItem("token") ? <Navigate to="/" /> : <Login darkMode={darkMode} />
+            } />
+            <Route path="/signup" element={
+              localStorage.getItem("token") ? <Navigate to="/" /> : <Register darkMode={darkMode} />
             } />
           </Routes>
         </div>

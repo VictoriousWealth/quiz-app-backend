@@ -69,3 +69,35 @@ def evaluate_answers(quiz_data, user_answers):
     
     response = model.generate_content(prompt)
     return json.loads(response.text.strip("```json\n").strip("```"))
+
+
+def generate_additional_questions(text, existing_questions):
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY")) 
+    model = genai.GenerativeModel("models/gemini-1.5-flash")
+    prompt = f"""
+                You are a quiz-generating assistant.
+
+                Based on the text below, generate more multiple-choice questions (with 4 options, one correct) that are *not* duplicates of the following questions:
+
+                {json.dumps(existing_questions)}
+
+                Text:
+                {text}
+
+                Return JSON in this format:
+                {{
+                "questions": [
+                    {{
+                    "question": "...",
+                    "options": ["A", "B", "C", "D"],
+                    "answer": "A",
+                    "explanation": "..."
+                    }},
+                    ...
+                ]
+                }}
+            """
+    response = model.generate_content(prompt)
+    print("GEMINI RAW:", response.text)
+    return response.text
+    # return json.loads(response.text.strip("```json\n").strip("```"))

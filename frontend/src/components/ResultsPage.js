@@ -31,7 +31,7 @@ const ResultsPage = ({ darkMode }) => {
         <h4>No results found. Please complete a quiz first.</h4>
         <Button
           variant={darkMode ? 'outline-light' : 'primary'}
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/upload')}
           className="mt-3"
         >
           Back to Upload
@@ -81,7 +81,7 @@ const ResultsPage = ({ darkMode }) => {
       <div className="text-center">
         <Button
           variant={darkMode ? 'outline-light' : 'success'}
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/upload')}
         >
           Try Another File
         </Button>

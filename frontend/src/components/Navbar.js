@@ -11,6 +11,16 @@ const AppNavbar = ({ darkMode, setDarkMode }) => {
   };
 
   
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
+
+  
   return (
     <Navbar bg={darkMode ? "dark" : "light"} variant={darkMode ? "dark" : "light"} expand="lg">
       <Container>
@@ -18,7 +28,8 @@ const AppNavbar = ({ darkMode, setDarkMode }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Upload</Nav.Link>
+            <Nav.Link as={Link} to="/">Dashboard</Nav.Link>
+            <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
             <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
             <Nav.Link as={Link} to="/results">Results</Nav.Link>
             <Nav.Link as={Link} to="/history">History</Nav.Link>
@@ -32,12 +43,30 @@ const AppNavbar = ({ darkMode, setDarkMode }) => {
           />
           {localStorage.getItem("token") && (
             <Button 
-              variant={darkMode ? "outline-light" : "primary"} 
+              variant={darkMode ? "outline-light" : "outline-primary"} 
               className="ms-4"
               onClick={handleLogout}
             >
               Logout
             </Button>
+          )}
+          {!localStorage.getItem("token") && (
+            <>
+              <Button 
+                variant={darkMode ? "outline-light" : "outline-primary"} 
+                className="ms-4"
+                onClick={handleLogin}
+              >
+                Login
+              </Button>
+              <Button 
+              variant={darkMode ? "outline-light" : "outline-primary"} 
+              className="ms-4"
+              onClick={handleSignUp}
+            >
+              Sign up
+            </Button>
+            </>
           )}
 
         </Navbar.Collapse>
