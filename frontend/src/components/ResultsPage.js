@@ -61,7 +61,7 @@ const ResultsPage = ({ darkMode }) => {
           className={`mb-3 p-3 border-2 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`}
         >
           <Card.Title>
-            {q.id}. {q.question}
+            {results.indexOf(q) + 1}. {q.question}
           </Card.Title>
           <Card.Subtitle className="mb-2">
             <strong>Your Answer:</strong>{' '}

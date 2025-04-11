@@ -90,7 +90,13 @@ const Dashboard = ({ darkMode }) => {
                       variant="primary"
                       onClick={() => navigate('/quiz', { state: { quizData: {
                         quiz_id: `section-${i + 1}-${selectedFileId}`,
-                        questions: sec.questions
+                        questions: sec.questions.map(q => ({
+                          id: q.id,
+                          question: q.text,
+                          options: q.options,
+                          correct_answer: q.correct_answer,
+                          explanation: q.explanation
+                        }))
                       }}})}
                     >
                       Take Quiz

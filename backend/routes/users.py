@@ -88,6 +88,7 @@ def generate_more_questions(file_id: str, db: Session = Depends(get_db), current
 
     # Call Gemini with awareness of previous questions
     response_text = generate_additional_questions(full_text, existing_texts)
+    print("Raw Gemini Response:", response_text)
 
     try:
         questions_data = json.loads(response_text.strip("```json\n").strip("```"))
