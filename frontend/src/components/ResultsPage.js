@@ -18,7 +18,7 @@ const ResultsPage = ({ darkMode }) => {
     badgeText = 'light';
   } else if (scorePercent >= 40) {
     badgeBg = 'warning';  // yellow
-    badgeText = darkMode ? 'dark' : 'dark';
+    badgeText = 'dark';
   } else {
     badgeBg = 'danger';   // red
     badgeText = 'light';

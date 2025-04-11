@@ -6,6 +6,21 @@ from db.session import get_db
 from db.models import UploadedFile, Quiz, Question
 from services.gemini_service import generate_quiz_from_text
 from auth.utils import get_current_user
+from db.models import User
+import fitz  # PyMuPDF
+import docx
+
+def extract_text_from_file(path, ext):
+    if ext == ".pdf":
+        doc = fitz.open(path)
+        return "\n".join([page.get_text() for page in doc])
+    elif ext == ".docx":
+        doc = docx.Document(path)
+        return "\n".join([para.text for para in doc.paragraphs])
+    else:  # assume .txt
+        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            return f.read()
+
 
 router = APIRouter()
 UPLOAD_DIR = "uploads"
@@ -17,12 +32,13 @@ async def upload_and_generate_quiz(file: UploadFile = File(...), db: Session = D
     ext = os.path.splitext(file.filename)[1]
     filename = f"{uuid.uuid4().hex}{ext}"
     file_path = os.path.join(UPLOAD_DIR, filename)
+    
 
     with open(file_path, "wb") as f:
         f.write(await file.read())
 
     file_record = UploadedFile(
-        user_id="11111111-1111-1111-1111-111111111111",
+        user_id=current_user.id,
         filename=filename,
         original_name=file.filename,
         file_type=ext.lower().lstrip(".")
@@ -32,8 +48,7 @@ async def upload_and_generate_quiz(file: UploadFile = File(...), db: Session = D
     db.refresh(file_record)
 
     # Get text content from file
-    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-        text = f.read()
+    text = extract_text_from_file(file_path, ext)
 
     # Get quiz JSON from Gemini
     response_text = generate_quiz_from_text(text)

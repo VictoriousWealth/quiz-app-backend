@@ -10,8 +10,8 @@ from db.session import get_db
 from sqlalchemy.orm import Session
 from routes.upload_db import router as upload_db_router
 from fastapi import Depends
-from sqlalchemy.orm import Session
 from auth.routes import auth_router
+from routes.users import router as me_router
 
 load_dotenv()
 
@@ -32,10 +32,9 @@ app.include_router(auth_router)
 app.include_router(upload_router, prefix="/upload", tags=["Upload"])
 app.include_router(answer_router, prefix="/answers", tags=["Answers"])
 app.include_router(upload_db_router, prefix="/upload-db", tags=["Upload & Store"])
+app.include_router(me_router, prefix="/user", tags=["Dashboard"])
 
 
 @app.get("/")
 def read_root(db: Session = Depends(get_db)):
     return {"message": "QuizGen FastAPI backend is running!"}
-
-

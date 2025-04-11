@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from auth.utils import get_current_user
+from db.models import User
 
 router = APIRouter()
 UPLOAD_DIR = "uploads"

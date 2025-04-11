@@ -35,10 +35,13 @@ const FileUpload = ({ darkMode }) => {
     formData.append('file', file);
 
     try {
-      const res = await API.post('/upload/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const token = localStorage.getItem('token');
+      const res = await API.post('/upload-db/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
       });
-
       setShowToast(true);
 
       confetti({

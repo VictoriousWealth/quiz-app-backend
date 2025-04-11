@@ -1,8 +1,16 @@
 import React from 'react';
-import { Navbar, Nav, Container, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AppNavbar = ({ darkMode, setDarkMode }) => {
+  const navigate = useNavigate(); 
+  
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  
   return (
     <Navbar bg={darkMode ? "dark" : "light"} variant={darkMode ? "dark" : "light"} expand="lg">
       <Container>
@@ -22,6 +30,16 @@ const AppNavbar = ({ darkMode, setDarkMode }) => {
             label="🌙"
             className="text-nowrap"
           />
+          {localStorage.getItem("token") && (
+            <Button 
+              variant={darkMode ? "outline-light" : "primary"} 
+              className="ms-4"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          )}
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -38,9 +38,14 @@ const QuizPage = ({ darkMode }) => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      const token = localStorage.getItem('token');
       const res = await API.post('/answers/', {
         quizData: quiz,
         userAnswers: answers
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
   
       const evaluation = res.data;
