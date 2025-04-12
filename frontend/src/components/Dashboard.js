@@ -54,6 +54,7 @@ const Dashboard = ({ darkMode }) => {
   return (
     <div className="mt-4">
       <h2>Uploaded Files</h2>
+      {(files.length == 0) && (<p>No Files Have Been Saved.</p>)}
       {/* TODO is thta if there are no files then display text no files have been uploaded. */}
       <div className="d-flex flex-wrap gap-3">
         {files.map(file => (
