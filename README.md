@@ -128,7 +128,7 @@ MIT License
 ---
 
 ## 📬 Contact
-Built with 💙 by [Nick Efe Oni](efeoni10@gmail.com).
+Built with 💙 by [Nick Efe Oni](mailto:efeoni10@gmail.com).
 
 Feel free to fork, star, and share your feedback!
 
