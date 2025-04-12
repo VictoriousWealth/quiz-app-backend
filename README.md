@@ -211,4 +211,4 @@ Feel free to fork, star, and share your feedback!
 
 **Nick Efe Oni**  
 [GitHub](https://github.com/VictoriousWealth) • [LinkedIn](https://www.linkedin.com/in/nick-efe-oni)  
-✉️ efeoni10@gmail.com
+✉️ [efeoni10@gmail.com](mailto:efeoni10@gmail.com)
