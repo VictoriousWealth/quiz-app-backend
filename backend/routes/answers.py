@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from services.gemini_service import evaluate_answers
 from db.session import get_db
@@ -13,6 +13,10 @@ async def check_answers(request: Request, db: Session = Depends(get_db), current
     data = await request.json()
     quiz_data = data.get("quizData")
     user_answers = data.get("userAnswers")
+    
+    if not isinstance(user_answers, (list, dict)):
+        raise HTTPException(status_code=422, detail="userAnswers must be a list.")
+
 
     # ✅ First, evaluate the result
     try:

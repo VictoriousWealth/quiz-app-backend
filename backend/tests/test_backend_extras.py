@@ -39,10 +39,14 @@ def test_get_quizzes_by_file(auth_client, sample_file_id):
     assert all("questions" in section for section in data)
     
 # 4. Test viewing quiz history
-def test_quiz_history(auth_client, sample_quiz_id):
-    answers = {"answers": [{"question_id": "q1", "answer": "A"}]}  # adapt for your format
+def test_quiz_history(auth_client, sample_quiz_setup):
+    answers = [{"question_id": str(sample_quiz_setup["question_ids"][0]), "answer": "A"}] 
+    print("Question IDs:", sample_quiz_setup["question_ids"])
+    print("Question ID being used:", sample_quiz_setup["question_ids"][0])
+    print("Answer payload:", answers)
+
     auth_client.post("/answers/", json={
-        "quizData": {"quiz_id": sample_quiz_id},  # Add more quiz metadata if needed
+        "quizData": {"quiz_id": str(sample_quiz_setup["quiz_id"])},  # Add more quiz metadata if needed
         "userAnswers": answers
     })
     response = auth_client.get("/user/dashboard/history")
@@ -51,22 +55,18 @@ def test_quiz_history(auth_client, sample_quiz_id):
 
 
 # 5. Submitting quiz with invalid format
-def test_invalid_quiz_submission(auth_client, sample_quiz_id):
+def test_invalid_quiz_submission(auth_client, sample_quiz_setup):
     response = auth_client.post("/answers/", json={
-        "quizData": {"quiz_id": sample_quiz_id},
+        "quizData": {"quiz_id": sample_quiz_setup["quiz_id"]},
         "userAnswers": {"invalid": "data"}  # or malformed input for the test
     })
-    # response = auth_client.post("/answers/", json={
-    #     "quizData": None,  # or missing it entirely
-    #     "userAnswers": {"invalid": "data"}
-    # })
     assert response.status_code in (400, 422, 500)  # include 500 if evaluation fails
 
 
 # 6. Submitting quiz with no answers
 def test_quiz_submission_missing_answers(auth_client, sample_quiz_id):
     response = auth_client.post("/answers/", json={
-        "quizData": {"quiz_id": sample_quiz_id},
+        "quizData": {"quiz_id": str(sample_quiz_id)},
         "userAnswers": {}  # or malformed input for the test
     })
     assert response.status_code == 200

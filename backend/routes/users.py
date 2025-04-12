@@ -60,7 +60,7 @@ def get_sections(file_id: UUID, db: Session = Depends(get_db), current_user: Use
 
 
 @router.post("/dashboard/files/{file_id}/generate")
-def generate_more_questions(file_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def generate_more_questions(file_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     file = db.query(UploadedFile).filter(UploadedFile.id == file_id, UploadedFile.user_id == current_user.id).first()
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
@@ -87,11 +87,21 @@ def generate_more_questions(file_id: UUID, db: Session = Depends(get_db), curren
     )
     existing_texts = [q.text for q in existing_questions]
 
-    response_text = generate_additional_questions(full_text, existing_texts)
+    response_text = await generate_additional_questions(full_text, existing_texts, db)
 
     try:
-        questions_data = json.loads(response_text.strip("```json\n").strip("```"))
+        # ✅ New (safe for both raw list and markdown-formatted string)
+        if isinstance(response_text, str):
+            response_text = response_text.strip("```json").strip("```").strip()
+            questions_data = json.loads(response_text)
+        elif isinstance(response_text, list):
+            questions_data = response_text
+        else:
+            raise HTTPException(status_code=500, detail="Unexpected response format from Gemini API.")
+
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Gemini returned bad JSON: {e}")
 
     new_quiz = Quiz(file_id=file_id)
@@ -99,7 +109,7 @@ def generate_more_questions(file_id: UUID, db: Session = Depends(get_db), curren
     db.commit()
     db.refresh(new_quiz)
 
-    for q in questions_data["questions"]:
+    for q in questions_data:
         question = Question(
             quiz_id=new_quiz.id,
             text=q["question"],
@@ -111,7 +121,7 @@ def generate_more_questions(file_id: UUID, db: Session = Depends(get_db), curren
 
     db.commit()
 
-    return {"quiz_id": new_quiz.id, "section_number": len(existing_questions) // 5 + 1, "questions": questions_data["questions"]}
+    return {"quiz_id": new_quiz.id, "section_number": len(existing_questions) // 5 + 1, "questions": questions_data}
 
 @router.get("/dashboard/history")
 def get_quiz_history(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):

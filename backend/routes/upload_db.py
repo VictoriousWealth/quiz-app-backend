@@ -10,6 +10,7 @@ from db.models import User
 import docx
 from docx.opc.exceptions import PackageNotFoundError
 from fitz import open as open_pdf, FileDataError
+import traceback
 
 def extract_text_from_file(path, ext):
     ext = ext.lower()
@@ -76,27 +77,25 @@ async def upload_and_generate_quiz(
     text = extract_text_from_file(file_path, ext)
 
     # Get quiz JSON from Gemini
-    response_text = generate_quiz_from_text(text)
+    # response_text = generate_quiz_from_text(text, db)
+    questions = await generate_quiz_from_text(text, db)
 
-    try:
-        match = json.loads(response_text.strip("```json\n").strip("```"))
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": f"Gemini returned bad JSON: {e}"})
 
-    # Save quiz and questions
     quiz = Quiz(file_id=file_record.id)
     db.add(quiz)
     db.commit()
     db.refresh(quiz)
 
-    for q in match["questions"]:
+    for q in questions:
         question = Question(
+            id=q["id"],
             quiz_id=quiz.id,
             text=q["question"],
-            options=q["options"]
+            options=q["options"],
+            correct_answer=q["answer"],
+            explanation=q.get("explanation", "No explanation provided.")
         )
         db.add(question)
 
     db.commit()
-
-    return {"quiz_id": quiz.id, "questions": match["questions"], "file_id": file_record.id}
+    return {"quiz_id": quiz.id, "questions": questions, "file_id": file_record.id}

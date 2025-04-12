@@ -1,103 +1,144 @@
 import os
-import google.generativeai as genai
+import uuid
 import json
+import re
+import google.generativeai as genai
 
 from dotenv import load_dotenv
-load_dotenv()  # Make extra sure .env loads here too (safe duplication)
+from sqlalchemy.future import select
+from sqlalchemy.orm import Session
 
-def generate_quiz_from_text(text: str):
+from db.models import Quiz, Question
+
+load_dotenv()
+
+
+# === Utility to generate unique UUIDs ===
+def generate_unique_uuid(session, model, column):
+    while True:
+        new_id = str(uuid.uuid4())
+        result = session.execute(select(model).where(column == new_id))
+        if not result.scalars().first():
+            return new_id
+
+
+
+# === Helper to safely extract JSON from Gemini ===
+def extract_json(response_text: str):
+    try:
+        json_text = re.search(r'\{.*\}', response_text, re.DOTALL).group(0)
+        return json.loads(json_text)
+    except Exception as e:
+        print("RAW Gemini response:\n", response_text)
+        raise ValueError(f"Failed to parse Gemini response as JSON: {e}")
+
+
+# === Gemini quiz generator with UUID injection ===
+async def generate_quiz_from_text(text: str, db: Session):
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel("models/gemini-1.5-flash")
+
     prompt = f"""
-                You are an assistant helping students learn. Based on the following content, generate a quiz with 5 multiple-choice questions. Each question should have 4 options.
+You are an assistant helping students learn. Based on the following content, generate a quiz with 5 multiple-choice questions. Each question must have 4 options and exactly one correct answer.
 
-                Text:
-                {text}
+Text:
+{text}
 
-                Return the result as a JSON object in the following format:
-                {{
-                "quiz_id": "some_id",
-                "questions": [
-                    {{
-                    "id": 1,
-                    "question": "Question here",
-                    "options": ["A", "B", "C", "D"]
-                    }},
-                    ...
-                ]
-                }}
-            """
+Return JSON in the following format:
+{{
+  "questions": [
+    {{
+      "question": "Question here",
+      "options": ["A", "B", "C", "D"],
+      "answer": "A",
+      "explanation": "Explanation here"
+    }}
+  ]
+}}
+    """
+
     response = model.generate_content(prompt)
     print("GEMINI RAW:", response.text)
-    return response.text
+    data = extract_json(response.text)
+
+    for q in data["questions"]:
+        q["id"] = generate_unique_uuid(db, Question, Question.id)
+
+    return data["questions"]
 
 
-# load_dotenv()  # Make extra sure .env loads here too (safe duplication)
+# === Evaluate answers using Gemini ===
 def evaluate_answers(quiz_data, user_answers):
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY")) 
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel("models/gemini-1.5-flash")
+
     prompt = f"""
-                You are an AI tutor.
+You are an AI tutor.
 
-                Below is a quiz and a user's selected answers. For each question, return:
-                - the correct answer
-                - whether the user was right
-                - a brief explanation
+Below is a quiz and a user's selected answers. For each question, return:
+- the correct answer
+- whether the user was right
+- a brief explanation
 
-                Respond strictly in JSON format as:
+Respond strictly in JSON format as:
 
-                {{
-                "results": [
-                    {{
-                    "id": 1,
-                    "question": "...",
-                    "user_answer": "...",
-                    "correct_answer": "...",
-                    "is_correct": true,
-                    "explanation": "..."
-                    }},
-                    ...
-                ]
-                }}
+{{
+  "results": [
+    {{
+      "id": "uuid",
+      "question": "...",
+      "user_answer": "...",
+      "correct_answer": "...",
+      "is_correct": true,
+      "explanation": "..."
+    }}
+  ]
+}}
 
-                Quiz:
-                {quiz_data}
+Quiz:
+{quiz_data}
 
-                User Answers:
-                {user_answers}
-            """
-    
+User Answers:
+{user_answers}
+    """
+
     response = model.generate_content(prompt)
-    return json.loads(response.text.strip("```json\n").strip("```"))
+    return extract_json(response.text)
 
 
-def generate_additional_questions(text, existing_questions):
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY")) 
+# === Additional quiz generator (no duplicates) ===
+async def generate_additional_questions(text, existing_questions, db: Session):
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel("models/gemini-1.5-flash")
+
     prompt = f"""
-                You are a quiz-generating assistant.
+You are a quiz-generating assistant.
 
-                Based on the text below, generate more multiple-choice questions (with 4 options, one correct) that are *not* duplicates of the following questions:
+Based on the text below, generate new multiple-choice questions (4 options and 1 correct answer) that are *not* duplicates of these:
 
-                {json.dumps(existing_questions)}
+{json.dumps(existing_questions)}
 
-                Text:
-                {text}
+Text:
+{text}
 
-                Return JSON in this format:
-                {{
-                "questions": [
-                    {{
-                    "question": "...",
-                    "options": ["A", "B", "C", "D"],
-                    "answer": "A",
-                    "explanation": "..."
-                    }},
-                    ...
-                ]
-                }}
-            """
+Return JSON in the format:
+{{
+  "questions": [
+    {{
+      "question": "...",
+      "options": ["A", "B", "C", "D"],
+      "answer": "A",
+      "explanation": "..."
+    }}
+  ]
+}}
+    """
+
     response = model.generate_content(prompt)
     print("GEMINI RAW:", response.text)
-    return response.text
-    # return json.loads(response.text.strip("```json\n").strip("```"))
+    data = extract_json(response.text)
+
+    for q in data["questions"]:
+        q["id"] = generate_unique_uuid(db, Question, Question.id)
+
+    return data["questions"]
