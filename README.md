@@ -92,7 +92,63 @@ Deployment instructions for platforms like **Render**, **Vercel**, or **Heroku**
 ---
 
 ## 📸 Demo & Screenshots
-44 detailed screenshots will be uploaded to showcase user flow, dark/light mode, quiz results, and dashboard views. *(Coming Soon)*
+44 detailed screenshots have been uploaded to showcase user flow, dark/light mode, quiz results, and dashboard views.
+Here are some visual highlights of the app in both light and dark modes:
+
+### 🔐 Login
+<table>
+  <tr>
+    <td><img src="docs/screenshots/login_light_filled.png" alt="Login Light" width="250"/></td>
+    <td><img src="docs/screenshots/login_dark_filled.png" alt="Login Dark" width="250"/></td>
+  </tr>
+</table>
+
+---
+
+### 📂 Upload File & Generate Quiz
+<table>
+  <tr>
+    <td><img src="docs/screenshots/upload_light_filled.png" alt="Upload Light" width="250"/></td>
+    <td><img src="docs/screenshots/upload_dark_filled.png" alt="Upload Dark" width="250"/></td>
+  </tr>
+</table>
+
+---
+
+### 🧠 Quiz Page
+<table>
+  <tr>
+    <td><img src="docs/screenshots/quiz_light_filled_top.png" alt="Quiz Light Top" width="250"/></td>
+    <td><img src="docs/screenshots/quiz_dark_filled_top.png" alt="Quiz Dark Top" width="250"/></td>
+  </tr>
+</table>
+
+---
+
+### 📊 Results Page
+<table>
+  <tr>
+    <td><img src="docs/screenshots/results_light_filled_top.png" alt="Results Light" width="250"/></td>
+    <td><img src="docs/screenshots/results_dark_filled_top.png" alt="Results Dark" width="250"/></td>
+  </tr>
+</table>
+
+---
+
+### 🗂️ Dashboard & History
+<table>
+  <tr>
+    <td><img src="docs/screenshots/dashboard_light_filled.png" alt="Dashboard Light" width="250"/></td>
+    <td><img src="docs/screenshots/dashboard_dark_filled.png" alt="Dashboard Dark" width="250"/></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/history_light_filled.png" alt="History Light" width="250"/></td>
+    <td><img src="docs/screenshots/history_dark_filled.png" alt="History Dark" width="250"/></td>
+  </tr>
+</table>
+
+
+📂 [View Full Screenshot Gallery →](docs/screenshots/README.md)
 
 ---
 
@@ -101,6 +157,7 @@ Deployment instructions for platforms like **Render**, **Vercel**, or **Heroku**
 - Shareable quiz links
 - Custom quiz generation settings
 - Gamification elements (badges, leaderboard)
+- Frontend testing
 
 ---
 
