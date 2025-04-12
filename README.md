@@ -128,7 +128,12 @@ MIT License
 ---
 
 ## 📬 Contact
-Built with 💙 by Nick Efe Oni.
+Built with 💙 by [Nick Efe Oni](efeoni10@gmail.com).
 
 Feel free to fork, star, and share your feedback!
 
+## ✍️ Author
+
+**Nick Efe Oni**  
+[GitHub](https://github.com/VictoriousWealth) • [LinkedIn](https://www.linkedin.com/in/nick-efe-oni)  
+✉️ efeoni10@gmail.com
