@@ -4,6 +4,7 @@ import API from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import confetti from 'canvas-confetti';
+import '../App.css';
 
 const FileUpload = ({ darkMode }) => {
   const [file, setFile] = useState(null);
@@ -67,49 +68,51 @@ const FileUpload = ({ darkMode }) => {
 
   return (
     <>
-      {loading ? (
-        <>
-          <Loader />
-          <ToastContainer position="bottom-end" className="p-3">
-            <Toast
-              bg="success"
-              show={showToast}
-              onClose={() => setShowToast(false)}
-              delay={2000}
-              autohide
-            >
-              <Toast.Header>
-                <strong className="me-auto">Quiz Ready!</strong>
-              </Toast.Header>
-              <Toast.Body>Your AI-generated quiz has been created 🎉</Toast.Body>
-            </Toast>
-          </ToastContainer>
-        </>
-      ) : (
-        <Card className={`p-4 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`}>
-          <h2 className="mb-4">Upload a File to Generate Quiz</h2>
-          <Form>
-            <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Select a PDF, DOCX, or TXT file:</Form.Label>
-              <Form.Control
-                type="file"
-                accept=".pdf,.docx,.txt"
-                onChange={handleFileChange}
-                className={`mb-3 ${darkMode ? 'bg-secondary text-light border-light' : 'border-dark'}`}
-              />
-            </Form.Group>
-            <Button
-              variant={darkMode ? 'outline-light' : 'primary'}
-              onClick={handleUpload}
-              disabled={!file}
-            >
-              Upload & Generate Quiz
-            </Button>
-          </Form>
-        </Card>
+      {loading && (
+        <div className={`global-overlay ${darkMode ? "dark" : "light"}`}>
+          <div className="spinner-border" role="status" />
+        </div>
       )}
+  
+      <ToastContainer position="bottom-end" className="p-3">
+        <Toast
+          bg="success"
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={2000}
+          autohide
+        >
+          <Toast.Header>
+            <strong className="me-auto">Quiz Ready!</strong>
+          </Toast.Header>
+          <Toast.Body>Your AI-generated quiz has been created 🎉</Toast.Body>
+        </Toast>
+      </ToastContainer>
+  
+      <Card className={`p-4 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`}>
+        <h2 className="mb-4">Upload a File to Generate Quiz</h2>
+        <Form>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Select a PDF, DOCX, or TXT file:</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf,.docx,.txt"
+              onChange={handleFileChange}
+              className={`mb-3 ${darkMode ? 'bg-secondary text-light border-light' : 'border-dark'}`}
+            />
+          </Form.Group>
+          <Button
+            variant={darkMode ? 'outline-light' : 'primary'}
+            onClick={handleUpload}
+            disabled={!file}
+          >
+            Upload & Generate Quiz
+          </Button>
+        </Form>
+      </Card>
     </>
   );
+  
 };
 
 export default FileUpload;

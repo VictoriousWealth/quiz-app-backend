@@ -5,6 +5,7 @@ from db.session import get_db
 from sqlalchemy.orm import Session
 from auth.utils import get_current_user
 from db.models import User, QuizAttempt, UserAnswer
+import uuid
 
 router = APIRouter()
 
@@ -49,7 +50,7 @@ async def check_answers(request: Request, db: Session = Depends(get_db), current
         db.add(UserAnswer(
             user_id=current_user.id,
             attempt_id=attempt.id,
-            question_id=question_result["id"],
+            question_id=uuid.UUID(str(question_result["id"])), 
             answer=question_result["user_answer"],
             is_correct=is_correct
         ))

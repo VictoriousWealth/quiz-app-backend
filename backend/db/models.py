@@ -11,8 +11,7 @@ from sqlalchemy.dialects.postgresql import UUID
 Base = declarative_base()
 
 def generate_uuid():
-    return str(uuid.uuid4())
-
+    return uuid.uuid4()
 class User(Base):
     __tablename__ = "users"
 

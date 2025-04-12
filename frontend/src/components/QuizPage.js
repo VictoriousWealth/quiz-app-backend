@@ -1,9 +1,8 @@
-// src/components/QuizPage.js
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
 import API from '../api/api';
-
+import '../App.css';
 
 const QuizPage = ({ darkMode }) => {
   const location = useLocation();
@@ -21,9 +20,11 @@ const QuizPage = ({ darkMode }) => {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+
     try {
-      const token = localStorage.getItem('token');
-      const res = await API.post('/answers/', {
+      const token = localStorage.getItem("token");
+
+      const res = await API.post("/answers/", {
         quizData: quiz,
         userAnswers: answers
       }, {
@@ -34,13 +35,14 @@ const QuizPage = ({ darkMode }) => {
 
       const evaluation = res.data;
 
-      navigate('/results', {
+      navigate("/results", {
         state: {
           quizId: quiz.quiz_id,
           userAnswers: answers,
           results: evaluation.results
         }
       });
+
     } catch (err) {
       console.error("Answer check failed:", err);
       alert("Failed to check answers. Please try again.");
@@ -57,7 +59,7 @@ const QuizPage = ({ darkMode }) => {
         <div className="d-flex justify-content-center gap-3 mt-3">
           <Button
             variant={darkMode ? "outline-light" : "primary"}
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/")}
           >
             Go to Dashboard
           </Button>
@@ -73,51 +75,55 @@ const QuizPage = ({ darkMode }) => {
   }
 
   return (
-    <div className="container mt-4">
-      <h2>{location.state ? "Take the Quiz" : "Sample Quiz"}</h2>
-      {quiz.questions.map((q, index) => (
-        <Card
-          key={q.id}
-          className={`mb-3 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`}
+    <>
+      {submitting && (
+        <div className={`global-overlay ${darkMode ? "dark" : "light"}`}>
+          <div className="spinner-border" role="status" />
+        </div>
+      )}
+
+      <div className="container mt-4">
+        <h2>{location.state ? "Take the Quiz" : "Sample Quiz"}</h2>
+        {quiz.questions.map((q, index) => (
+          <Card
+            key={q.id}
+            className={`mb-3 ${darkMode ? 'bg-dark text-light border-light' : 'bg-light text-dark border-dark'}`}
+          >
+            <Card.Body>
+              <Card.Title>{index + 1}. {q.question}</Card.Title>
+              <Form>
+                {q.options.map((option, idx) => (
+                  <Form.Check
+                    key={idx}
+                    type="radio"
+                    label={option}
+                    name={`question-${q.id}`}
+                    value={option}
+                    checked={answers[q.id] === option}
+                    onChange={() => handleChange(q.id, option)}
+                    className="mb-2"
+                  />
+                ))}
+              </Form>
+            </Card.Body>
+          </Card>
+        ))}
+        <Button
+          variant={darkMode ? 'outline-light' : 'success'}
+          onClick={handleSubmit}
+          disabled={submitting}
         >
-          <Card.Body>
-            <Card.Title>{index + 1}. {q.question}</Card.Title>
-            <Form>
-              {q.options.map((option, idx) => (
-                <Form.Check
-                  key={idx}
-                  type="radio"
-                  label={option}
-                  name={`question-${q.id}`} // keep UUID here
-                  value={option}
-                  checked={answers[q.id] === option}
-                  onChange={() => handleChange(q.id, option)} // UUID used here too
-                  className="mb-2"
-                />
-              ))}
-            </Form>
-          </Card.Body>
-        </Card>
-      ))}
-      <Button
-        variant={darkMode ? 'outline-light' : 'success'}
-        onClick={handleSubmit}
-        disabled={submitting}
-      >
-        {submitting ? (
-          <>
-            <span
-              className="spinner-border spinner-border-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
-            Submitting...
-          </>
-        ) : (
-          'Submit Answers'
-        )}
-      </Button>
-    </div>
+          {submitting ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Submitting...
+            </>
+          ) : (
+            'Submit Answers'
+          )}
+        </Button>
+      </div>
+    </>
   );
 };
 

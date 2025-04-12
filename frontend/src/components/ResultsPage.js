@@ -28,14 +28,25 @@ const ResultsPage = ({ darkMode }) => {
   if (!results.length) {
     return (
       <div className="text-center mt-5">
-        <h4>No results found. Please complete a quiz first.</h4>
-        <Button
-          variant={darkMode ? 'outline-light' : 'primary'}
-          onClick={() => navigate('/upload')}
-          className="mt-3"
-        >
-          Back to Upload
-        </Button>
+        <h4>No results found.</h4>
+        <p>Please complete a quiz first.</p>
+        <div className='d-flex justify-content-center gap-3 mt-3'>
+          <Button
+            variant={darkMode ? 'outline-light' : 'primary'}
+            onClick={() => navigate('/quiz')}
+            className="mt-3"
+          >
+            Go to Take a Quiz
+          </Button>
+          <Button
+            variant={darkMode ? 'outline-light' : 'secondary'}
+            onClick={() => navigate('/upload')}
+            className="mt-3"
+          >
+            Go to Upload
+          </Button>
+          
+        </div>
       </div>
     );
   }
