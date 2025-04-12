@@ -2,7 +2,6 @@ from db.models import Base
 from db.session import engine
 
 from fastapi import FastAPI
-from routes.upload import router as upload_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from routes.answers import router as answer_router
@@ -29,7 +28,6 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
-app.include_router(upload_router, prefix="/upload", tags=["Upload"])
 app.include_router(answer_router, prefix="/answers", tags=["Answers"])
 app.include_router(upload_db_router, prefix="/upload-db", tags=["Upload & Store"])
 app.include_router(me_router, prefix="/user", tags=["Dashboard"])
@@ -38,3 +36,19 @@ app.include_router(me_router, prefix="/user", tags=["Dashboard"])
 @app.get("/")
 def read_root(db: Session = Depends(get_db)):
     return {"message": "QuizGen FastAPI backend is running!"}
+from fastapi.routing import APIRoute
+
+def list_routes(app):
+    routes = []
+    for route in app.routes:
+        if isinstance(route, APIRoute):
+            routes.append({
+                "path": route.path,
+                "name": route.name,
+                "methods": route.methods
+            })
+    return routes
+
+# Print all registered routes
+for r in list_routes(app):
+    print(f"{r['methods']} -> {r['path']} (name: {r['name']})")

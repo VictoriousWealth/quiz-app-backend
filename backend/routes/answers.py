@@ -30,7 +30,15 @@ async def check_answers(request: Request, db: Session = Depends(get_db), current
     # ✅ Save each answer and calculate score
     score = 0
     for question_result in result["results"]:
-        is_correct = question_result["is_correct"]
+        raw_is_correct = question_result["is_correct"]
+
+        if raw_is_correct is True:
+            is_correct = True
+        elif raw_is_correct is False:
+            is_correct = False
+        else:
+            is_correct = None  # Catch cases like "Unknown" or any string
+
         if is_correct:
             score += 1
 

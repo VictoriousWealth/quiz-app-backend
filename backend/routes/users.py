@@ -7,6 +7,7 @@ from services.gemini_service import generate_additional_questions
 import json
 import fitz  # PyMuPDF
 from docx import Document
+from uuid import UUID
 
 
 router = APIRouter()
@@ -45,7 +46,7 @@ def get_user_files(db: Session = Depends(get_db), current_user: User = Depends(g
 
 
 @router.get("/dashboard/files/{file_id}/sections")
-def get_sections(file_id: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def get_sections(file_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     quizzes = db.query(Quiz).filter(Quiz.file_id == file_id).all()
     data = []
     for i, quiz in enumerate(quizzes):
@@ -59,7 +60,7 @@ def get_sections(file_id: str, db: Session = Depends(get_db), current_user: User
 
 
 @router.post("/dashboard/files/{file_id}/generate")
-def generate_more_questions(file_id: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def generate_more_questions(file_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     file = db.query(UploadedFile).filter(UploadedFile.id == file_id, UploadedFile.user_id == current_user.id).first()
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
@@ -160,7 +161,7 @@ def get_quiz_history(db: Session = Depends(get_db), current_user: User = Depends
     return history
 
 @router.get("/dashboard/quiz/{quiz_id}/attempts")
-def get_quiz_attempts(quiz_id: str, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def get_quiz_attempts(quiz_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Get all attempts for this quiz by the current user
     attempts = db.query(QuizAttempt).filter(
         QuizAttempt.user_id == current_user.id,
