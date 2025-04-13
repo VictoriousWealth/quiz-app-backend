@@ -174,3 +174,16 @@ You can add tests using React Testing Library or Cypress.
 - Uses React Bootstrap for rapid prototyping.
 - Works seamlessly with FastAPI backend at localhost:8000.
 - Accessible, responsive, and optimized for both desktop and mobile.
+
+---
+
+## 📬 Contact
+Built with 💙 by [Nick Efe Oni](mailto:efeoni10@gmail.com).
+
+Feel free to fork, star, and share your feedback!
+
+## ✍️ Author
+
+**Nick Efe Oni**  
+[GitHub](https://github.com/VictoriousWealth) • [LinkedIn](https://www.linkedin.com/in/nick-efe-oni)  
+✉️ [efeoni10@gmail.com](mailto:efeoni10@gmail.com)

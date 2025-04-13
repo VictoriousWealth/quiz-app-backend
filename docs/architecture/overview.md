@@ -1,36 +1,54 @@
 # 🧱 System Design Overview
 
 ## 🎯 Goal
-Build a web app that allows a user to upload a file and generate quiz questions using Gemini AI. The user then answers the quiz, and the app provides correct answers and explanations by sending the answers back to Gemini in the same conversation.
+Build a full-stack AI-powered quiz web application that allows users to upload learning materials (PDF, DOCX, TXT), generate quizzes from the content using Gemini AI, take the quizzes, receive AI-evaluated feedback, and track their progress over time.
+
+## 🗂️ Architecture Style
+This is a **classic client-server architecture**, with a React frontend interacting with a FastAPI backend via RESTful API calls. User authentication is handled using **JWT tokens** with optional support for **OAuth2**.
 
 ## 🔧 Core Components
 
 ### 1. Frontend (React.js + Bootstrap)
-- File upload interface
-- Quiz-taking UI
-- Results display
+- Responsive, accessible UI with support for **dark/light mode**
+- Upload interface for learning files
+- Quiz interface with answer tracking
+- Results page with explanations
+- Dashboard and history tracking
 
 ### 2. Backend (FastAPI)
-- File handling & text extraction
-- API endpoints to interact with frontend
-- Integration with Gemini API
-- Quiz & result management
+- Exposes RESTful API endpoints to the frontend
+- Handles file upload and text parsing
+- Generates quizzes via Gemini API
+- Stores and evaluates user responses
+- Manages user authentication (JWT)
 
 ### 3. AI Integration (Gemini API)
-- Generates quiz questions from file content
-- Evaluates user answers using prompt + earlier conversation
-- Provides explanations per question
+- Generates quiz questions from raw content
+- Stores context to evaluate quiz submissions in the same conversation
+- Returns correct answers and explanations per question
 
-### 4. Database (PostgreSQL or MongoDB)
-- Stores quizzes, answers, results
-- Enables reattempts and progress tracking
+### 4. Database (PostgreSQL)
+- Stores uploaded files, quizzes, user answers, and results
+- Enables users to reattempt quizzes and track their history
+- Associates quiz content with the original uploaded file
 
 ---
 
 ## 📌 Key Features (from User Stories)
-- Upload files (PDF, DOCX, etc.)
-- Generate quiz questions
-- Take quizzes directly in the app
-- Submit answers and get explanations
-- Save and review past quizzes
-- Reattempt previous quizzes
+- Upload a PDF, DOCX, or TXT file
+- Generate a quiz per file and section
+- Take quizzes and submit answers
+- See correct answers and explanations
+- Track previous quiz attempts
+- Reattempt quizzes anytime
+- Light/dark mode toggle
+
+## 🚀 Deployment
+- Intended for Heroku (or other cloud platforms such as Render, Vercel, etc.)
+- `.env` file used for local development with keys: `DATABASE_URL`, `GEMINI_API_KEY`, `SECRET_KEY`
+
+## ♿ Accessibility
+- Fully keyboard-navigable UI
+- Responsive on both desktop and mobile
+- Contrast-friendly theme with dark/light toggle
+
