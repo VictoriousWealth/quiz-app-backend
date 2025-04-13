@@ -1,219 +1,153 @@
-# AI-Powered Quiz Web App
+# 🧠 Backend – AI-Powered Quiz Web App
 
-Welcome to the **AI-Powered Quiz Web App**, a full-stack web application that transforms any uploaded document into an interactive quiz using Google's **Gemini AI**. Users can upload PDF, DOCX, or TXT files, take generated quizzes, and receive instant feedback, all within a modern, responsive interface.
-
----
-
-## 🌟 Features
-
-- 📄 **Smart Uploads**: Upload PDF, DOCX, or TXT files.
-- 🤖 **AI Quiz Generation**: Uses Gemini AI to generate accurate multiple-choice questions.
-- 🧠 **Instant Feedback**: Get answers and explanations right after quiz submission.
-- 🗂 **Progress Tracking**: View quiz history and reattempt previous quizzes.
-- 🔒 **JWT Authentication**: Secure signup/login with protected routes.
-- 🌗 **Dark Mode**: Full dark/light theme support.
+This is the **FastAPI backend** for the AI-powered quiz generation platform. It handles user authentication, file uploads, quiz generation using Gemini AI, answer evaluation, history tracking, and more.
 
 ---
 
-## 🧠 Tech Stack
+## 🚀 Tech Stack
 
-| Layer      | Technology                             |
-|------------|----------------------------------------|
-| Frontend   | React.js, Bootstrap                    |
-| Backend    | FastAPI, SQLAlchemy, Alembic           |
-| AI         | Gemini API (Google's Generative AI)    |
-| Database   | PostgreSQL                             |
-| Auth       | JWT                                    |
-
----
-
-## 📁 Project Structure
-
-```
-quiz-app/
-├── backend/         # FastAPI + SQLAlchemy backend
-│   ├── auth/        # JWT logic
-│   ├── db/          # Models & DB session
-│   ├── routes/      # All API endpoints
-│   ├── services/    # AI Integration
-│   └── tests/       # Full test suite
-│
-├── frontend/        # React frontend
-│   ├── src/components/  # UI components
-│   └── src/api/         # Axios instance
-│
-├── ai_prompts/      # Gemini prompt engineering
-├── docs/            # Architecture + user stories
-└── README.md
-```
+- **FastAPI** (with Starlette and Pydantic)
+- **SQLAlchemy** (ORM with PostgreSQL)
+- **Alembic** for database migrations
+- **Google Gemini API** for AI-powered quiz generation
+- **UUID-based models** for secure record identification
+- **JWT Authentication**
 
 ---
 
-## 🛠️ Getting Started
+## 📁 Folder Structure
 
-### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/quiz-app.git
-cd quiz-app
+.
+├── ai_prompts/                 # Gemini AI prompts engineering
+├── backend
+    ├── alembic/                # Migration scripts
+    ├── alembic.ini             # Alembic config
+    ├── auth/                   # Login, password hashing, token generation
+    ├── db/                     # Database models and session management
+    ├── main.py                 # App entry point
+    ├── uploads/                # Uploaded files (PDF, DOCX, TXT)
+    ├── Procfile                # Deployemnt instructions
+    ├── requirements.txt        # Backend dependencies
+    ├── routes/                 # API routes: answers, quizzes, uploads, users
+    ├── runtime.txt
+    ├── services/               # Gemini AI service logic
+    └── tests/                  # Pytest-based test suite
 ```
 
-### 2. Set Up Environment Variables
-Create a `.env` file inside the `backend/` folder:
-```env
-DATABASE_URL=postgresql://user:pass@localhost/dbname
-GEMINI_API_KEY=your_api_key
-SECRET_KEY=your_jwt_secret
-```
+---
 
-### 3. Backend Setup
+## 🔐 Authentication
+
+- JWT tokens are issued on login via `/auth/login`
+- Token is passed in the header: `Authorization: Bearer <token>`
+- Authenticated endpoints use FastAPI `Depends` to extract and verify tokens
+
+---
+
+## 📂 API Endpoints (Key Routes)
+
+| Method | Path                        | Description                                  |
+|--------|-----------------------------|----------------------------------------------|
+| POST   | `/auth/register`            | Register a new user                          |
+| POST   | `/auth/login`               | Log in and receive JWT token                 |
+| POST   | `/upload-db/`               | Upload a document (PDF, DOCX, TXT)           |
+| POST   | `/quizzes/generate/`        | Trigger Gemini to generate quiz questions    |
+| POST   | `/answers/`                 | Submit answers and receive evaluation        |
+| GET    | `/dashboard`                | Get user-specific uploaded files/quizzes     |
+| GET    | `/dashboard/files/{id}`     | Get quizzes per uploaded file                |
+| GET    | `/history`                  | View latest attempt for each quiz            |
+| GET    | `/history/{quiz_id}`        | View all attempts for a quiz                 |
+
+---
+
+## 🧠 AI Integration
+
+- Uses **Google Gemini** via `services/gemini_service.py`
+- Prompt engineering done in `ai_prompts/gemini_prompts.py`
+- All quizzes include: `question`, `options[]`, `correct answer`, and `explanation`
+
+---
+
+## 🧪 Testing
+
+Tests are located in `backend/tests/` and use **Pytest**
+
+### ✅ Covered
+- Auth flows
+- Upload validations (`PDF`/`DOCX`/`TXT` only)
+- Quiz submission and scoring
+- Dashboard and history fetch
+- Edge cases (e.g., empty files, bad JSON, invalid quiz attempts)
+
+### Run tests:
 ```bash
 cd backend
+pytest
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Create a virtual environment:
+```bash
 python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+source venv/bin/activate  # macOS/Linux
+venv\Scripts\activate    # Windows
+```
+
+### 2. Install dependencies:
+```bash
 pip install -r requirements.txt
+```
+
+### 3. Set environment variables in `.env`:
+```
+DATABASE_URL=postgresql://user:password@localhost/quizdb
+GEMINI_API_KEY=your_google_gemini_key
+SECRET_KEY=your_jwt_secret_key
+```
+
+### 4. Run migrations:
+```bash
 alembic upgrade head
+```
+
+### 5. Start backend:
+```bash
 uvicorn main:app --reload
 ```
 
-### 4. Frontend Setup
-```bash
-cd ../frontend
-npm install
-npm start
-```
+---
 
-Now visit `http://localhost:3000` to start using the app!
+## 📌 Notes
+
+- Gemini-generated quizzes are stored per file per user
+- Each quiz has multiple attempts tracked
+- UUIDs ensure secure and unique identification
+- CORS enabled for frontend at `http://localhost:3000`
 
 ---
 
-## 🔍 Deployment
-Deployment instructions for platforms like **Render**, **Vercel**, or **Heroku** will be provided soon. This MVP is almost ready for production.
-
----
-
-## 📸 Demo & Screenshots
-44 detailed screenshots have been uploaded to showcase user flow, dark/light mode, quiz results, and dashboard views.
-Here are some visual highlights of the app in both light and dark modes:
-
-### 🔐 Login
-<table>
-  <tr>
-    <td><img src="docs/screenshots/login_light_empty.png" alt="Login Light with no details" width="250"/></td>
-    <td><img src="docs/screenshots/login_light_filled.png" alt="Login Light with details filled in" width="250"/></td>
-    <td><img src="docs/screenshots/login_dark_empty.png" alt="Login Dark with no details" width="250"/></td>
-    <td><img src="docs/screenshots/login_dark_filled.png" alt="Login Dark with details filled in" width="250"/></td>
-  </tr>
-</table>
-
----
-
-### 📂 Upload File & Generate Quiz
-<table>
-  <tr>
-    <td><img src="docs/screenshots/upload_light_empty.png" alt="Upload Light with no file chosen" width="250"/></td>
-    <td><img src="docs/screenshots/upload_light_filled.png" alt="Upload Light with file chosen" width="250"/></td>
-    <td><img src="docs/screenshots/upload_dark_empty.png" alt="Upload Dark with no file chosen" width="250"/></td>
-    <td><img src="docs/screenshots/upload_dark_filled.png" alt="Upload Dark with file chosen" width="250"/></td>
-    <td><img src="docs/screenshots/upload_dark_loading.png" alt="Upload Dark now uploading file" width="250"/></td>
-    <td><img src="docs/screenshots/upload_dark_success.png" alt="Upload Dark now generating quiz" width="250"/></td>
-  </tr>
-</table>
-
----
-
-### 🧠 Quiz Page
-<table>
-  <tr>
-    <td><img src="docs/screenshots/quiz_light_empty.png" alt="Quiz Light with no quiz data" width="250"/></td>
-    <td><img src="docs/screenshots/quiz_light_filled_top.png" alt="Quiz Light with quiz data Top section" width="250"/></td>
-    <td><img src="docs/screenshots/quiz_light_filled_bottom.png" alt="Quiz Light with quiz data Bottom section" width="250"/></td>
-    <td><img src="docs/screenshots/quiz_dark_empty.png" alt="Quiz Dark with no quiz data" width="250"/></td>
-    <td><img src="docs/screenshots/quiz_dark_filled_top.png" alt="Quiz Dark with quiz data Top section" width="250"/></td>
-    <td><img src="docs/screenshots/quiz_dark_filled_bottom.png" alt="Quiz Dark with quiz data Bottom section" width="250"/></td>
-    <td><img src="docs/screenshots/quiz_dark_filled_loading.png" alt="Quiz Dark with quiz data loading section" width="250"/></td>
-  </tr>
-</table>
-
----
-
-### 📊 Results Page
-<table>
-  <tr>
-    <td><img src="docs/screenshots/results_light_empty.png" alt="Results Light with no results data" width="250"/></td>
-    <td><img src="docs/screenshots/results_light_filled_top.png" alt="Results Light with results data Top Section" width="250"/></td>
-    <td><img src="docs/screenshots/results_light_filled_bottom.png" alt="Results Light with no results data Bottom Section" width="250"/></td>
-    <td><img src="docs/screenshots/results_dark_empty.png" alt="Results Dark with no results data" width="250"/></td>
-    <td><img src="docs/screenshots/results_dark_filled_top.png" alt="Results Dark with no results data Top Section" width="250"/></td>
-    <td><img src="docs/screenshots/results_dark_filled_bottom.png" alt="Results Dark with no results data Bottom Section" width="250"/></td>
-  </tr>
-</table>
-
----
-
-### 🗂️ Dashboard & History
-<table>
-  <tr>
-    <td><img src="docs/screenshots/dashboard_light_empty.png" alt="Dashboard Light with no files data" width="250"/></td>
-    <td><img src="docs/screenshots/dashboard_light_filled.png" alt="Dashboard Light with files data" width="250"/></td>
-    <td><img src="docs/screenshots/dashboard_light_filled_show_section.png" alt="Dashboard Light with files data showing one or more section" width="250"/></td>
-    <td><img src="docs/screenshots/dashboard_dark_empty.png" alt="Dashboard Dark with no files data" width="250"/></td>
-    <td><img src="docs/screenshots/dashboard_dark_filled.png" alt="Dashboard Dark with files data" width="250"/></td>
-    <td><img src="docs/screenshots/dashboard_dark_filled_show_section.png" alt="Dashboard Dark with files data showing one or more section" width="250"/></td>
-  </tr>
-  <tr>
-    <td><img src="docs/screenshots/history_light_filled.png" alt="History Light" width="250"/></td>
-    <td><img src="docs/screenshots/history_light_filled_view_attempts.png" alt="History Light show view attempts" width="250"/></td>
-    <td><img src="docs/screenshots/history_dark_filled.png" alt="History Dark" width="250"/></td>
-    <td><img src="docs/screenshots/history_dark_filled_view_attempts.png" alt="History Dark show view attempts" width="250"/></td>
-  </tr>
-</table>
-
----
-
-## 💡 Future Enhancements
-- Admin dashboard
-- Shareable quiz links
-- Custom quiz generation settings
-- Gamification elements (badges, leaderboard)
-- Frontend testing
-
----
-
-## 🧪 Tests
-```bash
-cd backend
-pytest tests/
-```
-Covers: login edge cases, quiz generation, file uploads, dashboard queries, and answer checking.
+## 🌟 Example Prompts
+See `ai_prompts/` for detailed prompt templates sent to Gemini API.
 
 ---
 
 ## Related Docs
 
-- [Overview](../docs/architecture/overview.md): High-level description of system components.
-- [Data Flow](../docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
-- [API Design](../docs/architecture/api_design.md): RESTful endpoints powering the system.
-- [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
-- [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
-- [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
-- [Backend](../backend/README.md): The Great Backend.
-- [Frontend](../frontend/README.md): The Great Frontend.
-- [AI Prompts](../ai_prompts/README.md): A deeper dip into AI
-- [General README](../README.md): Lost? Teleport back to the start position. 
+- [Overview](./docs/architecture/overview.md): High-level description of system components.
+- [Data Flow](./docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
+- [API Design](./docs/architecture/api_design.md): RESTful endpoints powering the system.
+- [General System Diagram (PDF)](./docs/diagrams/general_system_flow.pdf): Visual architecture representation.
+- [User Stories](./docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
+- [System Architecture](./docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
 
 ---
 
 ## 📄 License
 MIT License
-
----
-
-## 🙌 Acknowledgements
-- [Gemini API](https://deepmind.google/technologies/gemini/) by Google
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [React.js](https://reactjs.org/)
-- [Bootstrap](https://getbootstrap.com/)
-- [SQLAlchemy](https://www.sqlalchemy.org/)
 
 ---
 

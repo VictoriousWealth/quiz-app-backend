@@ -65,7 +65,6 @@ The actual API call to Gemini is handled in `services/gemini_service.py`, while 
 - [API Design](../docs/architecture/api_design.md): RESTful endpoints powering the system.
 - [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
 - [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
-- [Backend](../backend/README.md): The Great Backend.
 - [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
 - [General README](../README.md): Lost? Teleport back to the start position. 
 

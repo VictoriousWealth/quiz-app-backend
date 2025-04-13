@@ -56,15 +56,13 @@ This is a **classic client-server architecture**, with a React frontend interact
 
 ## Related Docs
 
-- [Data Flow](../docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
-- [API Design](../docs/architecture/api_design.md): RESTful endpoints powering the system.
-- [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
-- [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
-- [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
-- [Backend](../backend/README.md): The Great Backend.
-- [Frontend](../frontend/README.md): The Great Frontend.
-- [AI Prompts](../ai_prompts/README.md): A deeper dip into AI
-- [General README](../README.md): Lost? Teleport back to the start position. 
+- [Data Flow](./data_flow.md): Describes how data moves from upload to evaluation.
+- [API Design](./api_design.md): RESTful endpoints powering the system.
+- [General System Diagram (PDF)](../diagrams/general_system_flow.pdf): Visual architecture representation.
+- [System Architecture](../README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
+- [User Stories](../user_stories/20250409_143339_user_story.txt): Features from a user perspective.
+- [AI Prompts](../../ai_prompts/README.md): A deeper dip into AI
+- [General README](../../README.md): Lost? Teleport back to the start position. 
 
 ---
 
