@@ -61,6 +61,13 @@ This is the **FastAPI backend** for the AI-powered quiz generation platform. It 
 
 ---
 
+## 📚 API Documentation
+
+View the auto-generated Swagger UI at:
+👉 https://quiz-backend-nick-4b3aa7c613b0.herokuapp.com/docs
+
+---
+
 ## 🧠 AI Integration
 
 - Uses **Google Gemini** via `services/gemini_service.py`
