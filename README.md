@@ -188,6 +188,21 @@ Covers: login edge cases, quiz generation, file uploads, dashboard queries, and 
 
 ---
 
+## Related Docs
+
+- [Overview](../docs/architecture/overview.md): High-level description of system components.
+- [Data Flow](../docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
+- [API Design](../docs/architecture/api_design.md): RESTful endpoints powering the system.
+- [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
+- [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
+- [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
+- [Backend](../backend/README.md): The Great Backend.
+- [Frontend](../frontend/README.md): The Great Frontend.
+- [AI Prompts](../ai_prompts/README.md): A deeper dip into AI
+- [General README](../README.md): Lost? Teleport back to the start position. 
+
+---
+
 ## 📄 License
 MIT License
 

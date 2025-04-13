@@ -10,6 +10,8 @@ Contains the key prompt templates and formatting logic for:
 - Asking Gemini to generate multiple-choice and true/false questions from that content
 - Asking Gemini to evaluate user answers and return both the correct option and a brief explanation
 
+---
+
 ## 🧪 Prompt Engineering Strategy
 
 Gemini prompts are:
@@ -37,6 +39,7 @@ Generate 5 multiple-choice questions (each with 4 options and 1 correct answer) 
 ]
 """
 ```
+---
 
 ## ⚖️ Responsibilities
 
@@ -47,10 +50,24 @@ Prompt logic in this folder is called by:
 
 The actual API call to Gemini is handled in `services/gemini_service.py`, while this folder holds the textual logic passed into those requests.
 
+---
+
 ## 🔧 Future Improvements
 - Add few-shot examples to the prompts to improve consistency
 - Modularize prompts further to support more question types (e.g., fill-in-the-blank, open ended questions)
 
+---
+
+## Related Docs
+
+- [Overview](../docs/architecture/overview.md): High-level description of system components.
+- [Data Flow](../docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
+- [API Design](../docs/architecture/api_design.md): RESTful endpoints powering the system.
+- [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
+- [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
+- [Backend](../backend/README.md): The Great Backend.
+- [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
+- [General README](../README.md): Lost? Teleport back to the start position. 
 
 ---
 
@@ -64,3 +81,5 @@ Feel free to fork, star, and share your feedback!
 **Nick Efe Oni**  
 [GitHub](https://github.com/VictoriousWealth) • [LinkedIn](https://www.linkedin.com/in/nick-efe-oni)  
 ✉️ [efeoni10@gmail.com](mailto:efeoni10@gmail.com)
+
+---

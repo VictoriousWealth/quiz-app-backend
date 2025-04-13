@@ -52,3 +52,31 @@ This is a **classic client-server architecture**, with a React frontend interact
 - Responsive on both desktop and mobile
 - Contrast-friendly theme with dark/light toggle
 
+---
+
+## Related Docs
+
+- [Data Flow](../docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
+- [API Design](../docs/architecture/api_design.md): RESTful endpoints powering the system.
+- [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
+- [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
+- [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
+- [Backend](../backend/README.md): The Great Backend.
+- [Frontend](../frontend/README.md): The Great Frontend.
+- [AI Prompts](../ai_prompts/README.md): A deeper dip into AI
+- [General README](../README.md): Lost? Teleport back to the start position. 
+
+---
+
+## 📬 Contact
+Built with 💙 by [Nick Efe Oni](mailto:efeoni10@gmail.com).
+
+Feel free to fork, star, and share your feedback!
+
+## ✍️ Author
+
+**Nick Efe Oni**  
+[GitHub](https://github.com/VictoriousWealth) • [LinkedIn](https://www.linkedin.com/in/nick-efe-oni)  
+✉️ [efeoni10@gmail.com](mailto:efeoni10@gmail.com)
+
+---

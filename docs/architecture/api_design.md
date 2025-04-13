@@ -64,7 +64,7 @@ Authorization: Bearer <token>
     "userAnswers": {
       "question_uuid": "selected_option"
     }
-  }```
+  }
 
 
 - Action:
@@ -104,11 +104,39 @@ Authorization: Bearer <token>
 
 ## ⚙️ Status Codes
 
-`200 OK`: Successful operation
-`201 Created`: Resource successfully created
-`400 Bad Request`: Malformed data
-`401 Unauthorized`: Invalid or missing token
-`404 Not Found`: Resource not found
-`500 Internal Server Error`: Unexpected failure
- 
+- `200 OK`: Successful operation
+- `201 Created`: Resource successfully created
+- `400 Bad Request`: Malformed data
+- `401 Unauthorized`: Invalid or missing token
+- `404 Not Found`: Resource not found
+- `500 Internal Server Error`: Unexpected failure
+
 ---
+
+## Related Docs
+
+- [Overview](../docs/architecture/overview.md): High-level description of system components.
+- [Data Flow](../docs/architecture/data_flow.md): Describes how data moves from upload to evaluation.
+- [General System Diagram (PDF)](../docs/diagrams/general_system_flow.pdf): Visual architecture representation.
+- [System Architecture](../docs/README_architecture.md): Direct access to all technical documentation related to the system design, architecture, and data flow of the **AI-Powered Quiz Web App**.
+- [User Stories](../docs/user_stories/20250409_143339_user_story.txt): Features from a user perspective.
+- [Backend](../backend/README.md): The Great Backend.
+- [Frontend](../frontend/README.md): The Great Frontend.
+- [AI Prompts](../ai_prompts/README.md): A deeper dip into AI
+- [General README](../README.md): Lost? Teleport back to the start position. 
+
+---
+
+## 📬 Contact
+Built with 💙 by [Nick Efe Oni](mailto:efeoni10@gmail.com).
+
+Feel free to fork, star, and share your feedback!
+
+## ✍️ Author
+
+**Nick Efe Oni**  
+[GitHub](https://github.com/VictoriousWealth) • [LinkedIn](https://www.linkedin.com/in/nick-efe-oni)  
+✉️ [efeoni10@gmail.com](mailto:efeoni10@gmail.com)
+
+---
+
