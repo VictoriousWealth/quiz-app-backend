@@ -21,7 +21,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://quiz-frontend-nick-b973ee3e10ba.herokuapp.com http://localhost:3000"],
+    allow_origins=["https://quiz-frontend-nick-b973ee3e10ba.herokuapp.com", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
