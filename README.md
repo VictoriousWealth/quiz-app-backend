@@ -4,6 +4,12 @@ This is the **FastAPI backend** for the AI-powered quiz generation platform. It 
 
 ---
 
+### Related Repositories
+
+- [Quiz App Backend (FastAPI)](https://github.com/VictoriousWealth/quiz-app-frontend)
+
+---
+
 ## 🚀 Tech Stack
 
 - **FastAPI** (with Starlette and Pydantic)
