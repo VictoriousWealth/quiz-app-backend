@@ -6,7 +6,7 @@ This is the **FastAPI backend** for the AI-powered quiz generation platform. It 
 
 ### Related Repositories
 
-- [Quiz App Frontend (React.js)](https://github.com/VictoriousWealth/quiz-app-frontend)
+> 🖥️ The frontend for this project is built with React.js. Check it out here: [quiz-app-frontend](https://github.com/VictoriousWealth/quiz-app-frontend)
 
 ---
 
